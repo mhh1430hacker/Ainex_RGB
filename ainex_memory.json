@@ -1,17 +1,17 @@
 {
   "ainex": {
     "name": "AINEX",
-    "lvl": 50,
-    "xp": 2225,
+    "lvl": 61,
+    "xp": 4424,
     "hp": 100
   },
   "legacy": {
     "name": "LEGACY_AI",
     "lvl": 1,
-    "xp": 12592,
-    "hp": -2811.399999998537
+    "xp": 18965,
+    "hp": -4259.299999997963
   },
-  "last_video_time": 1768827385.6498585,
-  "total_cycles": 41706,
-  "updated_at": "Mon Jan 19 15:32:55 2026"
+  "last_video_time": 1768848987.0176923,
+  "total_cycles": 62558,
+  "updated_at": "Mon Jan 19 21:21:25 2026"
 }
