@@ -1,152 +1,124 @@
-import cv2
-import numpy as np
+import pybullet as p
+import pybullet_data
 import time
+import numpy as np
+import cv2
 import json
 import os
 import random
-import sys
 
-# === Immortality Settings ===
+# === إعدادات الخلود ===
 MEMORY_FILE = "ainex_memory.json"
-VIDEO_DIR = "ainex_evidence"
-RUN_LIMIT_SEC = 5.8 * 3600  # 5 hours and 48 minutes (to stop the script before it is kicked out)
-VIDEO_INTERVAL = 3 * 3600   # Video every 3 hours
-START_TIME = time.time()
+VIDEO_FILENAME = "ainex_latest_evidence.mp4"
+CYCLES_PER_RUN = 1000  # عدد دورات المحاكاة في كل تشغيلة (لإنتاج فيديو قصير ودسم)
+WIDTH, HEIGHT = 640, 480 # دقة مناسبة للمعالج
 
-# === Make sure the videos folder exists ===
-if not os.path.exists(VIDEO_DIR):
-    os.makedirs(VIDEO_DIR)
+# === تحميل الذاكرة (للاستمرار من حيث توقفنا) ===
+if os.path.exists(MEMORY_FILE):
+    with open(MEMORY_FILE, 'r') as f:
+        memory = json.load(f)
+else:
+    memory = {"ainex_lvl": 1, "legacy_lvl": 1, "total_cycles": 0, "disasters_survived": 0}
 
-# === Warrior Classes (for simulation) ===
-class Fighter:
-    def __init__(self, name, is_fluid):
-        self.name = name
-        self.is_fluid = is_fluid # True = Ainex, False = Old AI
-        self.level = 1
-        self.xp = 0
-        self.hp = 100
-        
-    def to_dict(self):
-        return {"name": self.name, "lvl": self.level, "xp": self.xp, "hp": self.hp}
+# === إعداد المحرك الفيزيائي ===
+# نستخدم DIRECT للسرعة، لكن الكاميرا ستعمل عبر TinyRenderer
+p.connect(p.DIRECT) 
+p.setAdditionalSearchPath(pybullet_data.getDataPath())
+p.setGravity(0, 0, -9.81)
+
+# بناء الأرضية
+planeId = p.loadURDF("plane.urdf")
+p.changeDynamics(planeId, -1, lateralFriction=1.0) # أرضية خشنة
+
+# === وظائف البناء ===
+def build_tower(offset_x, level, is_fluid):
+    """يبني برجاً من المكعبات. آينكس يستخدم مفاصل مرنة، القديم مجرد رص"""
+    blocks = []
+    base_pos = [offset_x, 0, 0.5]
     
-    def from_dict(self, data):
-        self.level = data['lvl']
-        self.xp = data['xp']
-        self.hp = data['hp']
-
-# === Status System (Memory) ===
-def load_state():
-    if os.path.exists(MEMORY_FILE):
-        with open(MEMORY_FILE, 'r') as f:
-            data = json.load(f)
+    for i in range(level + 3): # كل مستوى يزيد الارتفاع
+        pos = [offset_x, 0, 0.5 + i]
+        # مكعب بكتلة حقيقية
+        block = p.loadURDF("cube_small.urdf", pos, globalScaling=1.5)
+        p.changeDynamics(block, -1, mass=5.0) # كتلة ثقيلة
         
-        ainex = Fighter("AINEX", True)
-        legacy = Fighter("LEGACY_AI", False)
-        ainex.from_dict(data['ainex'])
-        legacy.from_dict(data['legacy'])
+        if is_fluid and len(blocks) > 0:
+            # سر آينكس: مفاصل مرنة (Spherical Joints) تمتص الصدمات
+            p.createConstraint(blocks[-1], -1, block, -1, p.JOINT_POINT2POINT, 
+                               [0,0,0], [0,0,0.5], [0,0,-0.5])
         
-        return ainex, legacy, data['last_video_time'], data['total_cycles']
-    else:
-        return Fighter("AINEX", True), Fighter("LEGACY_AI", False), 0, 0
+        blocks.append(block)
+    return blocks
 
-def save_state(ainex, legacy, last_vid, cycles):
-    data = {
-        "ainex": ainex.to_dict(),
-        "legacy": legacy.to_dict(),
-        "last_video_time": last_vid,
-        "total_cycles": cycles,
-        "updated_at": time.ctime()
-    }
-    with open(MEMORY_FILE, 'w') as f:
-        json.dump(data, f, indent=2)
+# بناء النموذجين
+ainex_blocks = build_tower(-2, memory["ainex_lvl"], is_fluid=True)
+legacy_blocks = build_tower(2, memory["legacy_lvl"], is_fluid=False)
 
-# This is the video render engine.
-def render_battle_video(ainex, legacy, cycle_count):
-    filename = f"{VIDEO_DIR}/battle_log_{int(time.time())}.mp4"
-    width, height = 1280, 720
-    fps = 24
-    seconds = 30 # Video length Summary
+# === إعداد الفيديو ===
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+out = cv2.VideoWriter(VIDEO_FILENAME, fourcc, 20.0, (WIDTH, HEIGHT))
+
+print(f">>> SIMULATION STARTED. CYCLE: {memory['total_cycles']}")
+
+# === حلقة المحاكاة ===
+for i in range(CYCLES_PER_RUN):
+    # 1. تطبيق الكوارث (كل 100 فريم)
+    if i % 100 == 0:
+        # رياح عاتية
+        wind_force = random.uniform(-20, 20)
+        for b in ainex_blocks + legacy_blocks:
+            p.applyExternalForce(b, -1, [wind_force, 0, 0], [0,0,0], p.WORLD_FRAME)
+            
+    # زلزال كل 300 فريم
+    if i % 300 == 0:
+        richter = random.uniform(200, 800) # قوة هائلة
+        print(f"!!! EARTHQUAKE MAGNITUDE: {richter} !!!")
+        for b in ainex_blocks + legacy_blocks:
+            # ضربة من الأسفل للأعلى
+            p.applyExternalForce(b, -1, [0, 0, richter], [0,0,0], p.WORLD_FRAME)
+
+    # 2. خطوة فيزيائية
+    p.stepSimulation()
+
+    # 3. الرندر (التصوير)
+    # الكاميرا تنظر للبرجين
+    viewMatrix = p.computeViewMatrix(
+        cameraEyePosition=[0, -8, 5],
+        cameraTargetPosition=[0, 0, 2],
+        cameraUpVector=[0, 0, 1])
     
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(filename, fourcc, fps, (width, height))
-    
-    print(f">>> RENDERING EVIDENCE VIDEO: {filename}...")
-    
-    for i in range(fps * seconds):
-        frame = np.zeros((height, width, 3), dtype=np.uint8)
-        
-        # Technical background
-        cv2.rectangle(frame, (0, 0), (width, height), (10, 10, 10), -1)
-        
-        # Battle Visuals Simulation
-        # Aynx (Gold) Grows
-        ainex_radius = 50 + (i % 50) + (ainex.level * 2)
-        cv2.circle(frame, (300, 360), int(ainex_radius), (0, 215, 255), 2)
-        cv2.putText(frame, "AINEX CORE", (220, 360), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 215, 255), 2)
-        
-        # The old AI (red) is shaking.
-        jitter = random.randint(-5, 5)
-        legacy_radius = max(10, 50 - (i % 20) + (legacy.level))
-        cv2.circle(frame, (900 + jitter, 360 + jitter), int(legacy_radius), (0, 0, 255), 2)
-        cv2.putText(frame, "LEGACY MODEL", (820, 360), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
-        
-        # Texts
-        cv2.putText(frame, f"SYSTEM TIME: {time.ctime()}", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
-        cv2.putText(frame, f"TOTAL CYCLES: {cycle_count}", (50, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 1)
-        
-        # Status bar
-        cv2.rectangle(frame, (50, 600), (50 + ainex.level*10, 630), (0, 215, 255), -1)
-        cv2.putText(frame, f"AINEX LEVEL: {ainex.level}", (50, 650), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
-        
-        out.write(frame)
-        
-    out.release()
-    print(">>> VIDEO RENDER COMPLETE.")
+    projectionMatrix = p.computeProjectionMatrixFOV(
+        fov=60.0, aspect=float(WIDTH)/HEIGHT, nearVal=0.1, farVal=100.0)
 
-# === Main ring (The Infinite Loop) ===
-def main():
-    print(">>> AINEX INFINITE PROTOCOL INITIATED.")
-    ainex, legacy, last_video_time, total_cycles = load_state()
+    # التقاط الصورة (TinyRenderer - CPU based)
+    width, height, rgbImg, depthImg, segImg = p.getCameraImage(
+        WIDTH, HEIGHT, viewMatrix, projectionMatrix, shadow=1, renderer=p.ER_TINY_RENDERER)
     
-    # Workshop (continues until closing time)
-    while True:
-        current_time = time.time()
-        
-        #1. Safety check (Are we close to 6 hours?)
-        if current_time - START_TIME > RUN_LIMIT_SEC:
-            print(">>> RUNTIME LIMIT REACHED. PREPARING FOR REINCARNATION...")
-            save_state(ainex, legacy, last_video_time, total_cycles)
-            break
-            
-        #2. Simulation (ongoing battle)
-        total_cycles += 1
-        
-        # Ainex continuously gains experience (liquid learning)
-        ainex.xp += random.randint(1, 5)
-        if ainex.xp > 100 * ainex.level:
-            ainex.level += 1
-            ainex.xp = 0
-            
-        # Old AI stumbles (stagnation)
-        if random.random() < 0.3:
-            legacy.xp += 1 # Learns slowly
-        else:
-            legacy.hp -= 0.1 # Eroded
-            
-        # 3. Check the video (has it been 3 hours?)
-        # We use current_time instead of START_TIME because we calculate real time across days.
-        if current_time - last_video_time > VIDEO_INTERVAL:
-            print(">>> 3 HOURS PASSED. GENERATING PROOF...")
-            render_battle_video(ainex, legacy, total_cycles)
-            last_video_time = current_time # Time Update
-            save_state(ainex, legacy, last_video_time, total_cycles) # Immediate saving
-            
-        # Save every 10 minutes for safety
-        if total_cycles % 600 == 0:
-            save_state(ainex, legacy, last_video_time, total_cycles)
-            
-        # Simulation speed
-        time.sleep(1)
+    # تحويل الصورة لنسق يفهمه OpenCV
+    img = np.reshape(rgbImg, (height, width, 4))[:, :, :3] # إزالة قناة الشفافية
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    
+    # إضافة نصوص HUD
+    cv2.putText(img, f"AINEX (FLUID): LVL {memory['ainex_lvl']}", (50, 50), 
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+    cv2.putText(img, f"LEGACY (SOLID): LVL {memory['legacy_lvl']}", (400, 50), 
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+    
+    out.write(img)
 
-if __name__ == "__main__":
-    main()
+# === الحفظ والنهاية ===
+out.release()
+p.disconnect()
+
+# تحديث الذاكرة
+memory["total_cycles"] += CYCLES_PER_RUN
+memory["disasters_survived"] += 1
+# آينكس ينمو دائماً
+memory["ainex_lvl"] += 1
+# القديم ينمو ببطء
+if random.random() > 0.5: memory["legacy_lvl"] += 1
+
+with open(MEMORY_FILE, 'w') as f:
+    json.dump(memory, f)
+
+print(">>> EVIDENCE GENERATED & MEMORY UPDATED.")
