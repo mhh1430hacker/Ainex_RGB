@@ -1,0 +1,17 @@
+{
+  "ainex": {
+    "name": "AINEX",
+    "lvl": 35,
+    "xp": 2816,
+    "hp": 100
+  },
+  "legacy": {
+    "name": "LEGACY_AI",
+    "lvl": 1,
+    "xp": 6305,
+    "hp": -1354.799999999862
+  },
+  "last_video_time": 1768805784.9893272,
+  "total_cycles": 20853,
+  "updated_at": "Mon Jan 19 09:44:25 2026"
+}
