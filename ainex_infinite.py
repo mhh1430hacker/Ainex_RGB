@@ -6,18 +6,18 @@ import os
 import random
 import sys
 
-# === إعدادات الخلود ===
+# === Immortality Settings ===
 MEMORY_FILE = "ainex_memory.json"
 VIDEO_DIR = "ainex_evidence"
-RUN_LIMIT_SEC = 5.8 * 3600  # 5 ساعات و 48 دقيقة (لإيقاف السكربت قبل طرده)
-VIDEO_INTERVAL = 3 * 3600   # فيديو كل 3 ساعات
+RUN_LIMIT_SEC = 5.8 * 3600  # 5 hours and 48 minutes (to stop the script before it is kicked out)
+VIDEO_INTERVAL = 3 * 3600   # Video every 3 hours
 START_TIME = time.time()
 
-# === التأكد من وجود مجلد الفيديوهات ===
+# === Make sure the videos folder exists ===
 if not os.path.exists(VIDEO_DIR):
     os.makedirs(VIDEO_DIR)
 
-# === فئات المحاربين (للمحاكاة) ===
+# === Warrior Classes (for simulation) ===
 class Fighter:
     def __init__(self, name, is_fluid):
         self.name = name
@@ -34,7 +34,7 @@ class Fighter:
         self.xp = data['xp']
         self.hp = data['hp']
 
-# === نظام الحالة (الذاكرة) ===
+# === Status System (Memory) ===
 def load_state():
     if os.path.exists(MEMORY_FILE):
         with open(MEMORY_FILE, 'r') as f:
@@ -60,12 +60,12 @@ def save_state(ainex, legacy, last_vid, cycles):
     with open(MEMORY_FILE, 'w') as f:
         json.dump(data, f, indent=2)
 
-# === مولد الفيديو (Render Engine) ===
+# This is the video render engine.
 def render_battle_video(ainex, legacy, cycle_count):
     filename = f"{VIDEO_DIR}/battle_log_{int(time.time())}.mp4"
     width, height = 1280, 720
     fps = 24
-    seconds = 30 # مدة الفيديو ملخص
+    seconds = 30 # Video length Summary
     
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter(filename, fourcc, fps, (width, height))
@@ -75,26 +75,26 @@ def render_battle_video(ainex, legacy, cycle_count):
     for i in range(fps * seconds):
         frame = np.zeros((height, width, 3), dtype=np.uint8)
         
-        # خلفية تقنية
+        # Technical background
         cv2.rectangle(frame, (0, 0), (width, height), (10, 10, 10), -1)
         
-        # محاكاة بصريات المعركة
-        # آينكس (ذهبي) ينمو
+        # Battle Visuals Simulation
+        # Aynx (Gold) Grows
         ainex_radius = 50 + (i % 50) + (ainex.level * 2)
         cv2.circle(frame, (300, 360), int(ainex_radius), (0, 215, 255), 2)
         cv2.putText(frame, "AINEX CORE", (220, 360), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 215, 255), 2)
         
-        # الـ AI القديم (أحمر) يرتجف
+        # The old AI (red) is shaking.
         jitter = random.randint(-5, 5)
         legacy_radius = max(10, 50 - (i % 20) + (legacy.level))
         cv2.circle(frame, (900 + jitter, 360 + jitter), int(legacy_radius), (0, 0, 255), 2)
         cv2.putText(frame, "LEGACY MODEL", (820, 360), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
         
-        # النصوص
+        # Texts
         cv2.putText(frame, f"SYSTEM TIME: {time.ctime()}", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
         cv2.putText(frame, f"TOTAL CYCLES: {cycle_count}", (50, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 1)
         
-        # شريط الحالة
+        # Status bar
         cv2.rectangle(frame, (50, 600), (50 + ainex.level*10, 630), (0, 215, 255), -1)
         cv2.putText(frame, f"AINEX LEVEL: {ainex.level}", (50, 650), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
         
@@ -103,49 +103,49 @@ def render_battle_video(ainex, legacy, cycle_count):
     out.release()
     print(">>> VIDEO RENDER COMPLETE.")
 
-# === الحلقة الرئيسية (The Infinite Loop) ===
+# === Main ring (The Infinite Loop) ===
 def main():
     print(">>> AINEX INFINITE PROTOCOL INITIATED.")
     ainex, legacy, last_video_time, total_cycles = load_state()
     
-    # حلقة العمل (تستمر حتى يقترب وقت الإغلاق)
+    # Workshop (continues until closing time)
     while True:
         current_time = time.time()
         
-        # 1. فحص الأمان (هل اقتربنا من الـ 6 ساعات؟)
+        #1. Safety check (Are we close to 6 hours?)
         if current_time - START_TIME > RUN_LIMIT_SEC:
             print(">>> RUNTIME LIMIT REACHED. PREPARING FOR REINCARNATION...")
             save_state(ainex, legacy, last_video_time, total_cycles)
             break
             
-        # 2. المحاكاة (المعركة المستمرة)
+        #2. Simulation (ongoing battle)
         total_cycles += 1
         
-        # آينكس يكتسب خبرة باستمرار (التعلم السائل)
+        # Ainex continuously gains experience (liquid learning)
         ainex.xp += random.randint(1, 5)
         if ainex.xp > 100 * ainex.level:
             ainex.level += 1
             ainex.xp = 0
             
-        # الـ AI القديم يتعثر (الجمود)
+        # Old AI stumbles (stagnation)
         if random.random() < 0.3:
-            legacy.xp += 1 # يتعلم ببطء
+            legacy.xp += 1 # Learns slowly
         else:
-            legacy.hp -= 0.1 # يتآكل
+            legacy.hp -= 0.1 # Eroded
             
-        # 3. فحص الفيديو (هل مرت 3 ساعات؟)
-        # نستخدم current_time وليس START_TIME لأننا نحسب الوقت الحقيقي عبر الأيام
+        # 3. Check the video (has it been 3 hours?)
+        # We use current_time instead of START_TIME because we calculate real time across days.
         if current_time - last_video_time > VIDEO_INTERVAL:
             print(">>> 3 HOURS PASSED. GENERATING PROOF...")
             render_battle_video(ainex, legacy, total_cycles)
-            last_video_time = current_time # تحديث الوقت
-            save_state(ainex, legacy, last_video_time, total_cycles) # حفظ فوري
-
-        # حفظ دوري كل 10 دقائق للأمان
+            last_video_time = current_time # Time Update
+            save_state(ainex, legacy, last_video_time, total_cycles) # Immediate saving
+            
+        # Save every 10 minutes for safety
         if total_cycles % 600 == 0:
             save_state(ainex, legacy, last_video_time, total_cycles)
             
-        # سرعة المحاكاة
+        # Simulation speed
         time.sleep(1)
 
 if __name__ == "__main__":
