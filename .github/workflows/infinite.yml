@@ -1,16 +1,17 @@
-name: Ainex Infinite Loop (RGB Game)
+name: Ainex Immortality Engine
 
 on:
-  workflow_dispatch:
-  push:            
+  schedule:
+    - cron: '0 */2 * * *'  # التعديل هنا: يعمل الآن كل ساعتين (0, 2, 4, 6...)
+  workflow_dispatch:       # زر للتشغيل اليدوي وقت ما تحب
+
 permissions:
   contents: write
-  actions: write
 
 jobs:
-  eternal-process:
+  run-simulation:
     runs-on: ubuntu-latest
-    timeout-minutes: 360 
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
@@ -20,24 +21,22 @@ jobs:
       with:
         python-version: '3.9'
 
-    - name: Install Libraries
-      run: pip install opencv-python-headless numpy
-
-    - name: Run Ainex Core
-      run: python ainex_infinite.py
-
-    - name: Save Memories & Evidence
+    - name: Install Physics Engine
       run: |
-        git config --global user.name 'Ainex-Bot'
-        git config --global user.email 'bot@ainex.system'
-        git add ainex_memory.json ainex_evidence/*.mp4
-        git commit -m "Ainex Cycle Log: $(date)" || echo "No changes to commit"
+        pip install pybullet numpy opencv-python
+
+    - name: Run Ainex Physics Core
+      # هذا الأمر يشغل كود المحاكاة الذي يصنع الفيديو وملف الذاكرة
+      run: python ainex_simulation.py
+
+    - name: Commit and Push Evidence
+      run: |
+        git config --global user.name "Ainex Bot"
+        git config --global user.email "ainex@system.local"
+        
+        # إضافة ملف الفيديو الجديد وسجل الذاكرة المحدث
+        git add ainex_latest_evidence.mp4 ainex_memory.json
+        
+        # الحفظ والرفع للمستودع (مع تخطي التكرار)
+        git commit -m "Ainex Update: New Evidence Generated (2-Hour Cycle) [skip ci]" || echo "No changes to commit"
         git push
-
-    - name: Trigger Next Incarnation
-      if: success() 
-      run: |
-        echo ">>> Waking up the next clone..."
-        gh workflow run infinite.yml
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
