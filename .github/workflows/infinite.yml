@@ -1,4 +1,4 @@
-name: Ainex Infinite Loop
+name: Ainex Infinite Loop (RGB Game)
 
 on:
   workflow_dispatch:
