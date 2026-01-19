@@ -1,0 +1,43 @@
+name: Ainex Infinite Loop
+
+on:
+  workflow_dispatch:
+  push:            
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  eternal-process:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360 
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Libraries
+      run: pip install opencv-python-headless numpy
+
+    - name: Run Ainex Core
+      run: python ainex_infinite.py
+
+    - name: Save Memories & Evidence
+      run: |
+        git config --global user.name 'Ainex-Bot'
+        git config --global user.email 'bot@ainex.system'
+        git add ainex_memory.json ainex_evidence/*.mp4
+        git commit -m "Ainex Cycle Log: $(date)" || echo "No changes to commit"
+        git push
+
+    - name: Trigger Next Incarnation
+      if: success() 
+      run: |
+        echo ">>> Waking up the next clone..."
+        gh workflow run infinite.yml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
