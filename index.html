@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AINEX AI — Ecosystem</title>
+  <meta name="description" content="Ainex AI ecosystem — from adaptive testing to metastable particle physics, AI-powered tools, data protection, and beyond." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #050508;
+      --bg-card: #0a0a10;
+      --border-card: #1a1a2e;
+      --accent-cyan: #00f0ff;
+      --accent-magenta: #ff00e5;
+      --accent-gold: #ffc107;
+      --accent-green: #00e676;
+      --accent-blue: #448aff;
+      --accent-orange: #ff6d00;
+      --text-primary: #e8e8f0;
+      --text-secondary: #8888aa;
+      --text-dim: #555570;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ========== ANIMATED BACKGROUND ========== */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .bg-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(200px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow.cyan  { background: var(--accent-cyan);  top: -200px; left: -100px; }
+    .bg-glow.magenta { background: var(--accent-magenta); bottom: -200px; right: -100px; }
+
+    /* ========== CANVAS ========== */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ========== LAYOUT ========== */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(5, 5, 8, 0.8);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.08);
+      transition: background 0.3s;
+    }
+    nav .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: var(--accent-cyan);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--text-dim); font-weight: 300; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      transition: color 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .nav-links a:hover { color: var(--accent-cyan); }
+
+    .nav-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+    .hero-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 32px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: fade-in-up 0.8s ease-out;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      animation: fade-in-up 0.8s ease-out 0.2s both;
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 48px;
+      animation: fade-in-up 0.8s ease-out 0.4s both;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      animation: fade-in-up 0.8s ease-out 0.6s both;
+    }
+    .btn {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), #0088aa);
+      color: #000;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0, 240, 255, 0.3); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-card);
+    }
+    .btn-ghost:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      animation: fade-in-up 0.8s ease-out 0.8s both;
+    }
+    .hero-stat {
+      text-align: center;
+    }
+    .hero-stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+    .hero-stat-label {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent-magenta);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+    }
+
+    /* ========== PROJECT CARDS ========== */
+    .projects {
+      padding: 80px 0 120px;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--card-accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-card:hover::before { opacity: 1; }
+    .project-card:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .project-card .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .project-card .card-domain {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      direction: ltr;
+      text-align: left;
+    }
+    .project-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      transition: color 0.3s;
+    }
+    .project-card:hover h3 { color: var(--card-accent); }
+    .project-card .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .project-card .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .card-arrow {
+      position: absolute;
+      top: 32px;
+      left: 32px;
+      font-size: 1.2rem;
+      color: var(--text-dim);
+      transition: all 0.3s;
+      direction: ltr;
+    }
+    .project-card:hover .card-arrow {
+      color: var(--card-accent);
+      transform: translateX(-4px);
+    }
+
+    /* Card accent colors */
+    .project-card.card-particle { --card-accent: var(--accent-cyan); }
+    .project-card.card-qiyas    { --card-accent: var(--accent-blue); }
+    .project-card.card-tender   { --card-accent: var(--accent-gold); }
+    .project-card.card-shield   { --card-accent: var(--accent-magenta); }
+    .project-card.card-cv       { --card-accent: var(--accent-orange); }
+    .project-card.card-mega     { --card-accent: var(--accent-green); }
+
+    /* ========== FOOTER ========== */
+    footer {
+      border-top: 1px solid var(--border-card);
+      padding: 48px 0;
+      text-align: center;
+    }
+    .footer-brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--accent-cyan);
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      direction: ltr;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 20px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.5px;
+      direction: ltr;
+    }
+    .footer-links a:hover { color: var(--accent-cyan); }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { gap: 24px; flex-wrap: wrap; justify-content: center; }
+      .hero-cta { flex-direction: column; align-items: center; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .hero { padding: 100px 16px 60px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background layers -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow cyan"></div>
+  <div class="bg-glow magenta"></div>
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">AINEX <span>// AI</span></a>
+      <ul class="nav-links">
+        <li><a href="#projects">المشاريع</a></li>
+        <li><a href="https://cv.ainex-ai.xyz" target="_blank">البحث</a></li>
+        <li><a href="https://saas.ainex-ai.xyz" target="_blank">الأدوات</a></li>
+      </ul>
+      <div class="nav-status">SYSTEMS ONLINE</div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">AINEX ECOSYSTEM v2.0</div>
+    <h1><span class="gradient-text">AINEX</span> AI</h1>
+    <p class="hero-sub">
+      منظومة ذكاء اصطناعي متكاملة — من ديناميكيات الجسيمات إلى أتمتة المناقصات، ومن حماية البيانات إلى أدوات لا نهائية.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">استكشف المشاريع</a>
+      <a href="https://cv.ainex-ai.xyz" target="_blank" class="btn btn-ghost">اقرأ البحث &#8592;</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">6</div>
+        <div class="hero-stat-label">منصات نشطة</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">20+</div>
+        <div class="hero-stat-label">أداة SaaS</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">7</div>
+        <div class="hero-stat-label">فصول بحثية</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-tag">// ECOSYSTEM</div>
+        <h2>المشاريع</h2>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- FDA Particle Lab -->
+        <a href="https://www.ainex-ai.xyz" target="_blank" class="project-card card-particle reveal">
+          <span class="card-arrow">&larr;</span>
+          <div class="card-icon">&#9883;</div>
+          <div class="card-domain">www.ainex-ai.xyz</div>
+          <h3>FDA Particle Lab</h3>
+          <p class="card-desc">
+            معمل تفاعلي لديناميكيات الأنظمة شبه المستقرة — فضاء الطور، نظرية التفرع، الحسبان الكسري، والمُكاملات ذات الذاكرة المتلاشية عبر 7 فصول.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">PHASE SPACE</span>
+            <span class="card-tag">BIFURCATION</span>
+            <span class="card-tag">FRACTIONAL CALCULUS</span>
+          </div>
+        </a>
+
+        <!-- Qiyas Lab -->
+        <a href="https://qiyas.ainex-ai.xyz" target="_blank" class="project-card card-qiyas reveal">
+          <span class="card-arrow">&larr;</span>
+          <div class="card-icon">&#9998;</div>
+          <div class="card-domain">qiyas.ainex-ai.xyz</div>
+          <h3>معمل قدرات</h3>
+          <p class="card-desc">
+            منصة اختبار تكيفي ذكي لتحضير اختبارات القدرات — تعديل مستوى الصعوبة تلقائياً بناءً على أداء الطالب مع خريطة إتقان تفاعلية.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">ADAPTIVE TESTING</span>
+            <span class="card-tag">MASTERY MAP</span>
+            <span class="card-tag">RTL</span>
+          </div>
+        </a>
+
+        <!-- Tender Automation -->
+        <a href="https://tender.ainex-ai.xyz" target="_blank" class="project-card card-tender reveal">
+          <span class="card-arrow">&larr;</span>
+          <div class="card-icon">&#128221;</div>
+          <div class="card-domain">tender.ainex-ai.xyz</div>
+          <h3>أتمتة المناقصات</h3>
+          <p class="card-desc">
+            حوّل تفاصيل كراسة الشروط إلى عرض فني احترافي في ثوانٍ — أتمتة كاملة للعروض الفنية الحكومية بالذكاء الاصطناعي.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">GOV TENDERS</span>
+            <span class="card-tag">AI GENERATION</span>
+            <span class="card-tag">AUTOMATION</span>
+          </div>
+        </a>
+
+        <!-- Nex Shield -->
+        <a href="https://data-vault.ainex-ai.xyz" target="_blank" class="project-card card-shield reveal">
+          <span class="card-arrow">&larr;</span>
+          <div class="card-icon">&#128737;</div>
+          <div class="card-domain">data-vault.ainex-ai.xyz</div>
+          <h3>Nex Shield Engine</h3>
+          <p class="card-desc">
+            النظام العالمي الأول للتسميم الدلالي وحماية الملكية الفكرية — يعمل على شبكة Edge لحماية بياناتك من سرقة الذكاء الاصطناعي.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">SEMANTIC POISONING</span>
+            <span class="card-tag">EDGE NETWORK</span>
+            <span class="card-tag">IP PROTECTION</span>
+          </div>
+        </a>
+
+        <!-- CV / Ainex Limit -->
+        <a href="https://cv.ainex-ai.xyz" target="_blank" class="project-card card-cv reveal">
+          <span class="card-arrow">&larr;</span>
+          <div class="card-icon">&#8734;</div>
+          <div class="card-domain">cv.ainex-ai.xyz</div>
+          <h3>حد آينكس — The Ainex Limit</h3>
+          <p class="card-desc">
+            تقرير بحثي تفاعلي يستعرض أطروحة "حد آل حاجي" — العتبة الحسابية القصوى نحو تفرد آينكس مع نمذجة رياضية ومراحل التفرد الثلاث.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">AGI RESEARCH</span>
+            <span class="card-tag">SINGULARITY</span>
+            <span class="card-tag">MATHEMATICAL MODEL</span>
+          </div>
+        </a>
+
+        <!-- AINEX MEGA -->
+        <a href="https://saas.ainex-ai.xyz" target="_blank" class="project-card card-mega reveal">
+          <span class="card-arrow">&larr;</span>
+          <div class="card-icon">&#9881;</div>
+          <div class="card-domain">saas.ainex-ai.xyz</div>
+          <h3>AINEX MEGA</h3>
+          <p class="card-desc">
+            بوابة أدوات لا نهائية — أكثر من 20 أداة تشمل تحويل الوسائط، معالجة الصور، التشفير، تحليل البيانات، وأدوات الشبكة. بدون خوادم.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">20+ TOOLS</span>
+            <span class="card-tag">SERVERLESS</span>
+            <span class="card-tag">IN-MEMORY</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-brand">AINEX // AI</div>
+      <p class="footer-text">&copy; 2025 Ainex AI Ecosystem. All systems operational.</p>
+      <ul class="footer-links">
+        <li><a href="https://www.ainex-ai.xyz" target="_blank">FDA LAB</a></li>
+        <li><a href="https://qiyas.ainex-ai.xyz" target="_blank">QIYAS</a></li>
+        <li><a href="https://tender.ainex-ai.xyz" target="_blank">TENDER</a></li>
+        <li><a href="https://data-vault.ainex-ai.xyz" target="_blank">NEX SHIELD</a></li>
+        <li><a href="https://cv.ainex-ai.xyz" target="_blank">RESEARCH</a></li>
+        <li><a href="https://saas.ainex-ai.xyz" target="_blank">MEGA</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Particle canvas animation
+    (function() {
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const PARTICLE_COUNT = 60;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 0.3;
+          this.vy = (Math.random() - 0.5) * 0.3;
+          this.radius = Math.random() * 1.5 + 0.5;
+          this.alpha = Math.random() * 0.3 + 0.05;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0, 240, 255, ${this.alpha})`;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(new Particle());
+      }
+
+      function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(0, 240, 255, ${0.04 * (1 - dist / 150)})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        drawLines();
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
