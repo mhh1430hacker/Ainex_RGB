@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>مهدي آل حاجي — المقر الرقمي والمختبر البرمجي</title>
-  <meta name="description" content="المقر الرقمي للمهندس والباحث مهدي آل حاجي، مؤسس Ainex ومطور منصات الذكاء الاصطناعي للمؤسسات[...]
+  <meta name="description" content="المقر الرقمي للمهندس والباحث مهدي آل حاجي، مؤسس Ainex ومطور منصات الذكاء الاصطناعي للمؤسسات والأنظمة المتقدمة." />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
 
@@ -41,7 +41,6 @@
       line-height: 1.6;
     }
 
-    /* ========== CUSTOM CUSTOM CURSOR & EFFECTS ========== */
     .custom-cursor {
       width: 20px;
       height: 20px;
@@ -57,7 +56,6 @@
     
     body:hover .custom-cursor { opacity: 1; }
 
-    /* ========== ANIMATED BACKGROUND ========== */
     .bg-grid {
       position: fixed;
       inset: 0;
@@ -90,7 +88,6 @@
       pointer-events: none;
     }
 
-    /* ========== LAYOUT CONTAINER ========== */
     .container {
       position: relative;
       z-index: 1;
@@ -99,7 +96,6 @@
       padding: 0 32px;
     }
 
-    /* ========== HIGH-END GLASS NAVIGATION ========== */
     nav {
       position: fixed;
       top: 20px;
@@ -158,7 +154,6 @@
     .nav-socials a { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
     .nav-socials a:hover { color: var(--accent-magenta); }
 
-    /* ========== HERO SECTION REDESIGN ========== */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -229,10 +224,7 @@
       align-items: center;
       gap: 8px;
     }
-    .btn-primary {
-      background: #ffffff;
-      color: #000000;
-    }
+    .btn-primary { background: #ffffff; color: #000000; }
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(255, 255, 255, 0.25);
@@ -248,7 +240,6 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
 
-    /* PREMIUM ANIMATED STATISTICS */
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -259,15 +250,9 @@
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       padding-top: 48px;
     }
-    .hero-stat-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 2.4rem;
-      font-weight: 700;
-      color: #ffffff;
-    }
+    .hero-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 2.4rem; font-weight: 700; color: #ffffff; }
     .hero-stat-label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px; }
 
-    /* ========== SECTION GLOBAL STRUCT ========== */
     section { padding: 120px 0; position: relative; }
     
     .section-header { margin-bottom: 64px; text-align: right; }
@@ -280,7 +265,6 @@
     }
     .section-header h2 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: #ffffff; }
 
-    /* ========== FLAGSHIP FEATURED PROJECT: VITO ========== */
     .featured-section { background: linear-gradient(180deg, transparent, rgba(5, 5, 15, 0.4), transparent); }
     
     .vito-card {
@@ -295,9 +279,7 @@
       gap: 48px;
       box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
     }
-    .vito-card::after {
-      content: ''; position: absolute; inset: 0; background: var(--glass-glow); pointer-events: none;
-    }
+    .vito-card::after { content: ''; position: absolute; inset: 0; background: var(--glass-glow); pointer-events: none; }
     .vito-info { position: relative; z-index: 2; }
     .vito-status {
       display: inline-flex; align-items: center; gap: 6px;
@@ -320,7 +302,6 @@
     
     .vito-actions { display: flex; gap: 16px; }
     
-    /* VITO INTERACTIVE GRAPHIC PREVIEW */
     .vito-visual {
       position: relative; background: rgba(255, 255, 255, 0.01);
       border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 16px;
@@ -340,7 +321,6 @@
       animation: floatNode 4s ease-in-out infinite; z-index: 2;
     }
 
-    /* ========== PROJECT ORGANIZATION COGNITIVE FILTERING ========== */
     .filter-container { display: flex; justify-content: right; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
     .filter-btn {
       background: transparent; border: 1px solid rgba(255, 255, 255, 0.04);
@@ -351,9 +331,7 @@
       background: rgba(255, 255, 255, 0.05); border-color: var(--accent-cyan); color: #fff;
     }
 
-    .projects-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px;
-    }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
     .project-card {
       background: var(--bg-card); border: 1px solid var(--border-card);
       border-radius: 20px; padding: 40px; position: relative; overflow: hidden;
@@ -378,12 +356,8 @@
     .card-arrow { position: absolute; top: 40px; left: 40px; font-size: 1.2rem; color: var(--text-dim); transition: all 0.3s; direction: ltr; }
     .project-card:hover .card-arrow { color: var(--accent-cyan); transform: translateX(-4px); }
 
-    /* ========== CURRENT FOCUS & ROADMAP ========== */
     .focus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-    .focus-card {
-      background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.04);
-      border-radius: 20px; padding: 40px;
-    }
+    .focus-card { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.04); border-radius: 20px; padding: 40px; }
     .focus-card h3 { font-size: 1.3rem; margin-bottom: 20px; color: #fff; display: flex; align-items: center; gap: 12px; }
     .focus-card h3::before { content: ''; width: 8px; height: 8px; background: var(--accent-magenta); border-radius: 50%; }
     .roadmap-step { display: flex; gap: 16px; margin-bottom: 16px; position: relative; }
@@ -394,7 +368,6 @@
     .roadmap-text h4 { font-size: 0.95rem; color: #fff; }
     .roadmap-text p { font-size: 0.85rem; color: var(--text-secondary); }
 
-    /* ========== RESEARCH PUBLICATIONS METER ========== */
     .research-list { display: flex; flex-direction: column; gap: 20px; }
     .research-item {
       background: var(--bg-card); border: 1px solid var(--border-card); padding: 32px; border-radius: 16px;
@@ -406,26 +379,17 @@
     .research-meta p { color: var(--text-secondary); font-size: 0.9rem; }
     .research-link-icon { font-family: 'JetBrains Mono', monospace; color: var(--accent-magenta); font-size: 0.9rem; }
 
-    /* ========== DYNAMIC LIVE ACTIVITY DASHBOARD LAYER ========== */
     .dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px; }
     .dash-column { display: flex; flex-direction: column; gap: 24px; }
-    .dash-card {
-      background: rgba(6, 6, 14, 0.6); border: 1px solid rgba(255, 255, 255, 0.03);
-      border-radius: 20px; padding: 32px; backdrop-filter: blur(10px);
-    }
+    .dash-card { background: rgba(6, 6, 14, 0.6); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 20px; padding: 32px; backdrop-filter: blur(10px); }
     .dash-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 10px; }
     .feed-container { display: flex; flex-direction: column; gap: 16px; max-height: 400px; overflow-y: auto; }
     
-    .feed-item {
-      padding: 16px; background: rgba(255, 255, 255, 0.01); border-radius: 10px;
-      border-left: 2px solid var(--accent-cyan); font-size: 0.9rem;
-    }
+    .feed-item { padding: 16px; background: rgba(255, 255, 255, 0.01); border-radius: 10px; border-left: 2px solid var(--accent-cyan); font-size: 0.9rem; }
     .feed-item .time { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px; }
     .feed-item p { color: var(--text-secondary); }
-    .feed-item.release { border-left-color: var(--accent-green); }
     .feed-item.social { border-left-color: var(--accent-blue); }
 
-    /* ========== ANIMATED TIMELINE SYSTEM ========== */
     .timeline-container { position: relative; margin: 40px 0; }
     .timeline-line { position: absolute; right: 50%; top: 0; bottom: 0; width: 2px; background: rgba(255, 255, 255, 0.05); transform: translateX(50%); }
     .timeline-node { display: flex; justify-content: space-between; margin-bottom: 48px; position: relative; width: 100%; }
@@ -439,19 +403,14 @@
     .timeline-content h3 { font-size: 1.25rem; color: #fff; margin-bottom: 8px; }
     .timeline-content p { color: var(--text-secondary); font-size: 0.9rem; }
 
-    /* ========== EXPERT ABOUT & ARCHITECTURE MATRICES ========== */
     .about-layout { display: grid; grid-template-columns: 1fr 1.3fr; gap: 64px; }
     .about-bio p { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px; }
     
     .skills-matrix { display: flex; flex-direction: column; gap: 24px; }
     .matrix-row h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-magenta); margin-bottom: 12px; text-transform: uppercase; }
     .matrix-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-    .matrix-tag {
-      background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--text-primary); padding: 8px 16px; border-radius: 8px; font-size: 0.9rem;
-    }
+    .matrix-tag { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-primary); padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; }
 
-    /* ========== FOOTER REDESIGN ========== */
     footer { border-top: 1px solid rgba(255, 255, 255, 0.04); padding: 64px 0; background: #020205; }
     .footer-inner { display: flex; justify-content: space-between; align-items: center; }
     .footer-brand { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; color: #fff; }
@@ -461,7 +420,6 @@
     .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
     .footer-links a:hover { color: var(--accent-cyan); }
 
-    /* ========== ANIMATIONS & REVEALS ========== */
     .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -469,7 +427,6 @@
     @keyframes rotateMesh { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes floatNode { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-    /* ========== RESPONSIVE SYSTEM GRID ========== */
     @media (max-width: 1024px) {
       .vito-card { grid-template-columns: 1fr; padding: 40px; }
       .vito-visual { min-height: 250px; }
@@ -527,7 +484,7 @@
     <h1><span class="gradient-text">Mahdi Alhajji</span></h1>
     <div class="hero-founder">Founder of Ainex // AI Researcher</div>
     <p class="hero-sub">
-      بناء أنظمة ذكاء اصطناعي متكاملة للمؤسسات، برمجيات علمية متطورة، وأدوات المطورين الجيل القادم لحل أعقد ال[...]
+      بناء أنظمة ذكاء اصطناعي متكاملة للمؤسسات، برمجيات علمية متطورة، وأدوات المطورين الجيل القادم لحل أعقد المشكلات الحقيقية.
     </p>
     <div class="hero-cta">
       <a href="#projects" class="btn btn-primary">استكشف المشاريع</a>
@@ -558,7 +515,7 @@
     </div>
   </section>
 
-  <!-- FLAGSHIP SECTION: VITO -->
+  <!-- FLAGSHIP VITO SECTION -->
   <section class="featured-section" id="vito">
     <div class="container">
       <div class="vito-card reveal">
@@ -567,7 +524,7 @@
           <h3>VITO</h3>
           <div class="vito-subtitle">Enterprise Perfume Intelligence Platform</div>
           <p class="vito-desc">
-            منصة ذكاء اصطناعي ثورية موجهة للمؤسسات لتركيب العطور، وتحليل المكونات الجزيئية، وتحسين الصيغ الكيميا[...]
+            منصة ذكاء اصطناعي ثورية موجهة للمؤسسات لتركيب العطور، وتحليل المكونات الجزيئية، وتحسين الصيغ الكيميائية لإدارة المواد الخام وتطوير الروائح العطرية بدعم خوارزمي متقدم.
           </p>
           <div class="feature-chips">
             <span class="chip highlight">Machine Learning</span>
@@ -610,14 +567,13 @@
       </div>
 
       <div class="projects-grid">
-        <!-- Project Vito Linked Dynamic -->
         <div class="project-card reveal" data-category="ai">
           <div class="card-top">
             <span class="card-arrow">&larr;</span>
             <div class="card-icon" style="color:var(--accent-cyan)">&#129514;</div>
             <div class="card-domain">www.vito.ainex-ai.xyz</div>
             <h3>VITO Enterprise</h3>
-            <p class="card-desc">منصة ذكاء اصطناعي لتركيب العطور، وتحليل المكونات الجزيئية، وتحسين الصيغ الكيميائية للمؤسس[...]
+            <p class="card-desc">منصة ذكاء اصطناعي لتركيب العطور، وتحليل المكونات الجزيئية، وتحسين الصيغ الكيميائية للمؤسسات.</p>
           </div>
           <div class="card-tags">
             <span class="card-tag">MOLECULAR AI</span>
@@ -625,14 +581,13 @@
           </div>
         </div>
 
-        <!-- Project 1 -->
         <div class="project-card reveal" data-category="research">
           <div class="card-top">
             <span class="card-arrow">&larr;</span>
             <div class="card-icon" style="color:var(--accent-cyan)">&#9883;</div>
             <div class="card-domain">www.waves.ainex-ai.xyz</div>
             <h3>FDA Particle Lab</h3>
-            <p class="card-desc">معمل تفاعلي لديناميكيات الأنظمة شبه المستقرة ونظرية التفرع والحسبان الكسري والمُكاملات ذا[...]
+            <p class="card-desc">معمل تفاعلي لديناميكيات الأنظمة شبه المستقرة ونظرية التفرع والحسبان الكسري والمُكاملات ذات الذاكرة المتلاشية.</p>
           </div>
           <div class="card-tags">
             <span class="card-tag">PHASE SPACE</span>
@@ -640,14 +595,13 @@
           </div>
         </div>
 
-        <!-- Project 2 -->
         <div class="project-card reveal" data-category="ai">
           <div class="card-top">
             <span class="card-arrow">&larr;</span>
             <div class="card-icon" style="color:var(--accent-blue)">&#9998;</div>
             <div class="card-domain">qiyas.ainex-ai.xyz</div>
             <h3>معمل قدرات التكيفي</h3>
-            <p class="card-desc">منصة اختبار تكيفي ذكي تعتمد على الذكاء الاصطناعي لتعديل مستوى الصعوبة ديناميكياً مع خريطة [...]
+            <p class="card-desc">منصة اختبار تكيفي ذكي تعتمد على الذكاء الاصطناعي لتعديل مستوى الصعوبة ديناميكياً مع خريطة إتقان معرفية تفاعلية.</p>
           </div>
           <div class="card-tags">
             <span class="card-tag">ADAPTIVE TESTING</span>
@@ -655,14 +609,13 @@
           </div>
         </div>
 
-        <!-- Project 3 -->
         <div class="project-card reveal" data-category="ai">
           <div class="card-top">
             <span class="card-arrow">&larr;</span>
             <div class="card-icon" style="color:var(--accent-gold)">&#128221;</div>
             <div class="card-domain">tender.ainex-ai.xyz</div>
             <h3>أتمتة المناقصات الحكومية</h3>
-            <p class="card-desc">أداة معالجة وتحويل تفاصيل كراسة الشروط والمواصفات إلى عروض فنية وهندسية متكاملة في ثوانٍ م[...]
+            <p class="card-desc">أداة معالجة وتحويل تفاصيل كراسة الشروط والمواصفات إلى عروض فنية وهندسية متكاملة في ثوانٍ معدودة.</p>
           </div>
           <div class="card-tags">
             <span class="card-tag">AUTOMATION</span>
@@ -670,14 +623,13 @@
           </div>
         </div>
 
-        <!-- Project 4 -->
         <div class="project-card reveal" data-category="security">
           <div class="card-top">
             <span class="card-arrow">&larr;</span>
             <div class="card-icon" style="color:var(--accent-magenta)">&#128737;</div>
             <div class="card-domain">data-vault.ainex-ai.xyz</div>
             <h3>Nex Shield Engine</h3>
-            <p class="card-desc">نظام متقدم للتسميم الدلالي وحماية الملكية الفكرية على شبكات Edge لحظر كشط وسرقة البيانات من ن[...]
+            <p class="card-desc">نظام متقدم للتسميم الدلالي وحماية الملكية الفكرية على شبكات Edge لحظر كشط وسرقة البيانات من نماذج الـ AI اللغوية.</p>
           </div>
           <div class="card-tags">
             <span class="card-tag">IP PROTECTION</span>
@@ -685,14 +637,13 @@
           </div>
         </div>
 
-        <!-- Project 5 -->
         <div class="project-card reveal" data-category="research">
           <div class="card-top">
             <span class="card-arrow">&larr;</span>
             <div class="card-icon" style="color:var(--accent-orange)">&#8734;</div>
             <div class="card-domain">cv.ainex-ai.xyz</div>
             <h3>حد آينكس — The Ainex Limit</h3>
-            <p class="card-desc">تقرير بحثي تفاعلي يستعرض أطروحة "حد آل حاجي" الرياضية لحساب العتبات الحسابية القصوى نحو الت[...]
+            <p class="card-desc">تقرير بحثي تفاعلي يستعرض أطروحة "حد آل حاجي" الرياضية لحساب العتبات الحسابية القصوى نحو التفرد التكنولوجي.</p>
           </div>
           <div class="card-tags">
             <span class="card-tag">AGI RESEARCH</span>
@@ -700,14 +651,13 @@
           </div>
         </div>
 
-        <!-- Project 6 -->
         <div class="project-card reveal" data-category="tools">
           <div class="card-top">
             <span class="card-arrow">&larr;</span>
             <div class="card-icon" style="color:var(--accent-green)">&#9881;</div>
             <div class="card-domain">saas.ainex-ai.xyz</div>
             <h3>AINEX MEGA</h3>
-            <p class="card-desc">بوابة حوسبة داخل الذاكرة بدون خادم (Serverless) توفر أكثر من 20 أداة لتشفير البيانات، معالجة الصور[...]
+            <p class="card-desc">بوابة حوسبة داخل الذاكرة بدون خادم (Serverless) توفر أكثر من 20 أداة لتشفير البيانات، معالجة الصور، والتحليل الفوري للشبكات.</p>
           </div>
           <div class="card-tags">
             <span class="card-tag">SERVERLESS</span>
@@ -718,64 +668,7 @@
     </div>
   </section>
 
-  <!-- CURRENT FOCUS & ROADMAP -->
-  <section id="focus" style="background: rgba(2,2,6,0.3);">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-tag">// CURRENT OPERATIONS</div>
-        <h2>التركيز الحالي والمخطط الزمني</h2>
-      </div>
-      <div class="focus-grid">
-        <div class="focus-card reveal">
-          <h3>تطوير المنتجات</h3>
-          <p style="color:var(--text-secondary); font-size:0.95rem;">التركيز منصب بالكامل حالياً على إطلاق نسخة البيتا المغلقة لـ VITO وتحسين [...]
-        </div>
-        <div class="focus-card reveal">
-          <h3>الأبحاث العلمية</h3>
-          <p style="color:var(--text-secondary); font-size:0.95rem;">توسيع أطروحة "حد آينكس" والتعاون مع مختبرات برمجية دولية لدمج خوارزميات [...]
-        </div>
-        <div class="focus-card reveal">
-          <h3>خريطة الطريق المستهدفة</h3>
-          <div class="roadmap-step">
-            <div class="roadmap-dot"></div>
-            <div class="roadmap-text"><h4>Q3 2026</h4><p>إطلاق البنية التحتية لـ VITO المؤسسية.</p></div>
-          </div>
-          <div class="roadmap-step">
-            <div class="roadmap-dot"></div>
-            <div class="roadmap-text"><h4>Q4 2026</h4><p>نشر التقرير الكمي الثاني حول حد آل حاجي.</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESEARCH SECTION -->
-  <section id="research">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-tag">// SCIENTIFIC PUBLICATIONS</div>
-        <h2>المنشورات والأوراق البحثية</h2>
-      </div>
-      <div class="research-list">
-        <a href="https://cv.ainex-ai.xyz" target="_blank" class="research-item reveal">
-          <div class="research-meta">
-            <h3>The Ainex Limit (أطروحة حد آل حاجي)</h3>
-            <p>نمذجة رياضية متقدمة لاستكشاف ومحاكاة مراحل التفرد التكنولوجي الثلاث والعتبة الحسابية القصوى.</p>
-          </div>
-          <div class="research-link-icon">READ PAPER &rarr;</div>
-        </a>
-        <a href="https://www.waves.ainex-ai.xyz" target="_blank" class="research-item reveal">
-          <div class="research-meta">
-            <h3>FDA Particle Lab Dynamics</h3>
-            <p>دراسة الأنظمة شبه المستقرة، فضاء الطور، والمُكاملات المعتمدة على الذاكرة المتلاشية في الفيزياء الحس[...]
-          </div>
-          <div class="research-link-icon">EXPLORE LAB &rarr;</div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- LIVE ACTIVITY DASHBOARD -->
+  <!-- LIVE TELEMETRY DASHBOARD -->
   <section id="activity">
     <div class="container">
       <div class="section-header reveal">
@@ -788,8 +681,8 @@
             <h3>&lt;/&gt; LATEST GITHUB DEVELOPMENTS</h3>
             <div class="feed-container" id="github-feed">
               <div class="feed-item">
-                <div class="time">LOADING DATA...</div>
-                <p>يتم الآن جلب آخر التحديثات البرمجية مباشرة من الخادم الإستراتيجي...</p>
+                <div class="time">LOADING RUNTIME DATA...</div>
+                <p>يتم الآن جلب آخر البيانات البرمجية من خادم البيئة التجريدية...</p>
               </div>
             </div>
           </div>
@@ -799,8 +692,8 @@
             <h3># SOCIAL INTELLIGENCE (X & LINKEDIN)</h3>
             <div class="feed-container" id="social-feed">
               <div class="feed-item social">
-                <div class="time">BROWSING FEED...</div>
-                <p>مزامنة الأنشطة المهنية والأفكار البحثية عبر الشبكات الاجتماعية متاح قريباً.</p>
+                <div class="time">SYNCHRONIZING FEED...</div>
+                <p>يتم الآن التحقق من الكاش ومزامنة الأنشطة والمشاركات الفكرية والمهنية...</p>
               </div>
             </div>
           </div>
@@ -809,110 +702,14 @@
     </div>
   </section>
 
-  <!-- HISTORICAL TIMELINE -->
-  <section id="timeline">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-tag">// ARCHIVAL HISTORY</div>
-        <h2>الخط الزمني التاريخي للمنظومة</h2>
-      </div>
-      <div class="timeline-container">
-        <div class="timeline-line"></div>
-        
-        <div class="timeline-node reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <div class="timeline-year">2024</div>
-            <h3>تأسيس منظومة Ainex</h3>
-            <p>إطلاق اللبنات الأولى لبوابة الأدوات اللانهائية ونظام الحماية السحابي والهيكل الأساسي للمشروع.</p>
-          </div>
-        </div>
-
-        <div class="timeline-node reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <div class="timeline-year">2025</div>
-            <h3>صياغة الأطروحات العلمية</h3>
-            <p>تطوير ونشر نظرية حد آينكس، وتدشين مختبر FDA الحسابي لدراسة ديناميكيات الأجسام شبه المستقرة.</p>
-          </div>
-        </div>
-
-        <div class="timeline-node reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <div class="timeline-year">2026</div>
-            <h3>بناء النظام الرائد VITO</h3>
-            <p>التركيز الكامل على هندسة معماريات الذكاء الاصطناعي لتطوير العطور واستهداف السوق العالمية للمؤسسات ا[...]
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT & ARCHITECTURE MATRICES -->
-  <section id="about">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-tag">// ARCHITECT BIOGRAPHY</div>
-        <h2>المهارات والمعمارية التقنية</h2>
-      </div>
-      <div class="about-layout">
-        <div class="about-bio reveal">
-          <p>أنا مهندس واجهات أمامية أول، باحث في أنظمة الذكاء الاصطناعي ومؤسس منظومة Ainex التكنولوجية المستقلة.</p>
-          <p>أركز شغفي بالكامل في سد الفجوة الكامنة بين الرياضيات المعقدة والنظرية البحتة، وبين المنتجات والبرمج[...]
-        </div>
-        <div class="skills-matrix reveal">
-          <div class="matrix-row">
-            <h4>Languages & Core</h4>
-            <div class="matrix-tags">
-              <span class="matrix-tag">TypeScript</span>
-              <span class="matrix-tag">Python</span>
-              <span class="matrix-tag">JavaScript (ES6+)</span>
-            </div>
-          </div>
-          <div class="matrix-row">
-            <h4>AI & Machine Learning</h4>
-            <div class="matrix-tags">
-              <span class="matrix-tag">PyTorch</span>
-              <span class="matrix-tag">Transformers</span>
-              <span class="matrix-tag">Data Analytics</span>
-            </div>
-          </div>
-          <div class="matrix-row">
-            <h4>Backend & Infra</h4>
-            <div class="matrix-tags">
-              <span class="matrix-tag">FastAPI</span>
-              <span class="matrix-tag">PostgreSQL</span>
-              <span class="matrix-tag">Docker / Edge Computing</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container footer-inner">
-      <div class="footer-brand">Mahdi Alhajji<span>//</span>Ainex</div>
-      <p class="footer-text">&copy; 2026 Ainex Ecosystem. All systems operational via Edge Networks.</p>
-      <ul class="footer-links">
-        <li><a href="https://github.com/mhh1430hacker" target="_blank">GitHub</a></li>
-        <li><a href="https://www.linkedin.com/in/mahdi-h-al-hajji-b188703a9/" target="_blank">LinkedIn</a></li>
-        <li><a href="https://x.com/Mhh1430" target="_blank">X</a></li>
-      </ul>
-    </div>
-  </footer>
-
+  <!-- REUSABLE SCRIPT LOGIC -->
   <script>
-    // ===== CUSTOM MOUSE FOLLOWER INTERACTION =====
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', (e) => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
     });
 
-    // ===== HIGH-PERFORMANCE CANVAS BACKGROUND =====
     (function() {
       const canvas = document.getElementById('particle-canvas');
       const ctx = canvas.getContext('2d');
@@ -959,14 +756,12 @@
       animate();
     })();
 
-    // ===== SCROLL EFFECT NAV BAR =====
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 40) { navbar.classList.add('scrolled'); }
       else { navbar.classList.remove('scrolled'); }
     });
 
-    // ===== COUNTER ANIMATION FACTOR =====
     const statsValues = document.querySelectorAll('.hero-stat-value');
     statsValues.forEach(stat => {
       const target = +stat.getAttribute('data-target');
@@ -982,7 +777,6 @@
       updateCount();
     });
 
-    // ===== COGNITIVE CATEGORIES FILTERING ANIMATIONS =====
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
@@ -1005,25 +799,9 @@
       });
     });
 
-    // ===== INTERSECTION OBSERVER FOR REVEAL ANIMATIONS =====
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -100px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // ===== LIVE TELEMETRY FETCHING SYSTEM =====
     async function fetchLiveTelemetry() {
       const githubFeed = document.getElementById('github-feed');
       const socialFeed = document.getElementById('social-feed');
-      
-      // الرابط النسبي الصحيح المتوافق مع بيئة Vercel Serverless
       const apiEndpoint = '/api/social-feed';
       
       try {
@@ -1031,16 +809,14 @@
         if (!response.ok) throw new Error('Telemetry server error');
         const data = await response.json();
         
-        // تفريغ مربعات التحميل المبدئية لبدء حقن البيانات الحية
         githubFeed.innerHTML = '';
         socialFeed.innerHTML = '';
         
-        // تكرار البيانات وحقنها ديناميكياً بناءً على المصدر
         data.forEach(item => {
           const card = document.createElement('div');
-          card.className = 'feed-item';
           
           if (item.source === 'github') {
+            card.className = 'feed-item';
             card.innerHTML = `
               <div class="time">${item.timestamp} — [GITHUB ${item.type.toUpperCase()}]</div>
               <p>${item.content}</p>
@@ -1048,7 +824,6 @@
             `;
             githubFeed.appendChild(card);
           } else {
-            // أنشطة X و LinkedIn تذهب لعمود الذكاء الاجتماعي
             card.className = 'feed-item social';
             const brandColor = item.source === 'x' ? 'var(--accent-cyan)' : 'var(--accent-blue)';
             card.innerHTML = `
@@ -1061,12 +836,11 @@
         });
         
       } catch (error) {
-        console.error("Telemetry Connection Error:", error);
-        // نظام الدفاع والبيانات الاحتياطية المباشرة في حال فشل الاتصال بالخادم
+        console.error("Fallback Active:", error);
         githubFeed.innerHTML = `
           <div class="feed-item">
             <div class="time">2026-07-11 — [GITHUB COMPILER]</div>
-            <p>مستودع: <strong>mhh1430hacker/vito-core</strong> — دفع تحديثات أمنية جديدة لمعالجة البيانات الجزيئية.</p>
+            <p>مستودع: <strong>mhh1430hacker/vito-core</strong> — دفع تحديثات أمنية جديدة لمعالجة البيانات الجزيئية للعطور.</p>
           </div>
         `;
         socialFeed.innerHTML = `
@@ -1078,7 +852,13 @@
       }
     }
 
-    // تشغيل المنظومة فور تحميل الصفحة بالكامل
+    document.querySelectorAll('.reveal').forEach(el => {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: 0.05 });
+      obs.observe(el);
+    });
+
     document.addEventListener('DOMContentLoaded', fetchLiveTelemetry);
   </script>
 </body>
