@@ -1,1 +1,9 @@
 
+{
+  "name": "ainex-telemetry-portfolio",
+  "version": "2.0.0",
+  "type": "module",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
