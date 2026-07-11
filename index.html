@@ -579,7 +579,7 @@
             <span class="chip">PostgreSQL</span>
           </div>
           <div class="vito-actions">
-            <a href="#" class="btn btn-primary">Live Demo</a>
+            <a href="https://www.vito.ainex-ai.xyz" target="_blank" class="btn btn-primary">Live Demo</a>
             <a href="#" class="btn btn-ghost">GitHub</a>
           </div>
         </div>
@@ -610,12 +610,27 @@
       </div>
 
       <div class="projects-grid">
+        <!-- Project Vito Linked Dynamic -->
+        <div class="project-card reveal" data-category="ai">
+          <div class="card-top">
+            <span class="card-arrow">&larr;</span>
+            <div class="card-icon" style="color:var(--accent-cyan)">&#129514;</div>
+            <div class="card-domain">www.vito.ainex-ai.xyz</div>
+            <h3>VITO Enterprise</h3>
+            <p class="card-desc">منصة ذكاء اصطناعي لتركيب العطور، وتحليل المكونات الجزيئية، وتحسين الصيغ الكيميائية للمؤسسات.</p>
+          </div>
+          <div class="card-tags">
+            <span class="card-tag">MOLECULAR AI</span>
+            <span class="card-tag">FASTAPI</span>
+          </div>
+        </div>
+
         <!-- Project 1 -->
         <div class="project-card reveal" data-category="research">
           <div class="card-top">
             <span class="card-arrow">&larr;</span>
             <div class="card-icon" style="color:var(--accent-cyan)">&#9883;</div>
-            <div class="card-domain">www.ainex-ai.xyz</div>
+            <div class="card-domain">www.waves.ainex-ai.xyz</div>
             <h3>FDA Particle Lab</h3>
             <p class="card-desc">معمل تفاعلي لديناميكيات الأنظمة شبه المستقرة ونظرية التفرع والحسبان الكسري والمُكاملات ذات الذاكرة المتلاشية.</p>
           </div>
@@ -993,7 +1008,6 @@
     // ===== ABS-LAYER: ASYNC REALTIME DATA FETCHER WITH GRACEFUL FALLBACK =====
     async function fetchGitHubTelemetry() {
       const feedContainer = document.getElementById('github-feed');
-      // Abstraction layer simulation / direct API request securely with caching principle
       try {
         const response = await fetch('https://api.github.com/users/mhh1430hacker/events/public');
         if (!response.ok) throw new Error('API Rate limit or network down');
@@ -1013,7 +1027,6 @@
           });
         } else { throw new Error('No public events found'); }
       } catch (error) {
-        // Fallback Architecture
         feedContainer.innerHTML = `
           <div class="feed-item release">
             <div class="time">تحديث مستقر (الوضع الاحتياطي)</div>
